@@ -11,6 +11,9 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+import os
+from s3_storage import MediaStorage, StaticStorage
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -38,7 +41,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'photos.apps.PhotosConfig'
+    'photos.apps.PhotosConfig',
+
+    'storages'
 ]
 
 MIDDLEWARE = [
@@ -118,6 +123,23 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
+MEDIA_URL = '/img/'
+
+STATICFILES_DIRS = [
+    BASE_DIR / 'static'
+]
+
+MEDIA_ROOT = BASE_DIR / 'static/img'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+AWS_QUERYSTRING_AUTH = False
+DEFAULT_FILE_STORAGE = 's3_storage.MediaStorage'
+STATICFILES_STORAGE = 's3_storage.StaticStorage'
+AWS_S3_ENDPOINT_URL = 'https://storage.yandexcloud.net'
+AWS_S3_ACCESS_KEY_ID = 'YCAJEMMTFzX-IXa9HT3dJFP4m'
+AWS_S3_SECRET_ACCESS_KEY = 'YCMBGBpa0kdz4gLCxefN6n7oNCT3ZvzhNCyohv4O'
+
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
